@@ -1,0 +1,50 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: chatdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      redis:
+        image: redis:alpine
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Lint
+        run: |
+          pip install flake8
+          flake8 app
+      - name: Test
+        run: |
+          pytest --cov=app
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ github.repository }} .
+      - name: Push to Docker Hub
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+          docker tag ${{ github.repository }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}
