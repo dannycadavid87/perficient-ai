@@ -12,6 +12,10 @@ app = FastAPI(
     ]
 )
 
+@app.get("/")
+def read_root():
+    return {"message": "API de chat funcionando"}
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

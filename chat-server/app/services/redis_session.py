@@ -1,4 +1,4 @@
-import aioredis
+import redis.asyncio as aioredis
 import os
 from fastapi import Depends
 

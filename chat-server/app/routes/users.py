@@ -25,7 +25,7 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     return create_user(db, user)
 
 @router.post("/login", summary="Authenticates a User")
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db), redis=Depends(get_redis)):
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db), redis=Depends(get_redis)):
     user = get_user_by_username(db, form_data.username)
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Incorrect username or password")
