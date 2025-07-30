@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "PerficientAPI",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

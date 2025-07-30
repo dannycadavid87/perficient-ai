@@ -1,0 +1,15 @@
+meta {
+  name: Get the details of a chat
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/chats/{{chat_id}}
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

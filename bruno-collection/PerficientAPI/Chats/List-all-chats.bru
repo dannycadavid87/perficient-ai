@@ -1,0 +1,15 @@
+meta {
+  name: List all chats of the authenticated user
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/chats
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

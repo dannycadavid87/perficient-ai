@@ -1,0 +1,23 @@
+meta {
+  name: Chat
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/chat
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Mi Chat",
+    "description": "Un chat de prueba.",
+    "owner_id": 1
+  }
+}
+
+settings {
+  encodeUrl: true
+}

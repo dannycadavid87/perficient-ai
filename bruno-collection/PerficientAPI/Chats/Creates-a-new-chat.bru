@@ -1,0 +1,21 @@
+meta {
+  name: Creates a new chat
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/chats
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "Nuevo Chat"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
