@@ -11,6 +11,8 @@ class Chat(Base):
     description = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    owner = relationship("User", back_populates="chats")
+    messages = relationship("Message", back_populates="chat")
 
     # Relaciones (opcional)
     # owner = relationship("User", back_populates="chats")

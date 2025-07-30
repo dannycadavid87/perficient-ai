@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.schemas.user import UserCreate, UserLogin, UserOut
 from app.services.user import create_user, get_user_by_username, verify_password
 from app.db.session import SessionLocal
-from app.auth.jwt import create_access_token
+from app.auth.jwt_interpreter import create_access_token
 from app.services.redis_session import get_redis
 from app.auth.dependencies import get_current_user
 from fastapi.security import OAuth2PasswordRequestForm

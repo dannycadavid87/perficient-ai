@@ -1,2 +1,9 @@
 fastapi
 uvicorn
+sqlalchemy
+pydantic[email]
+passlib
+psycopg2-binary
+PyJWT
+redis
+python-multipart

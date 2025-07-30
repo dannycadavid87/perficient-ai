@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException, status, Request
-from app.auth.jwt import decode_access_token, oauth2_scheme
+from app.auth.jwt_interpreter import decode_access_token, oauth2_scheme
 from app.services.redis_session import get_redis
 
 async def get_current_user(token: str = Depends(oauth2_scheme), redis=Depends(get_redis)):
