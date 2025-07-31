@@ -42,7 +42,7 @@ def create_chat(chat: ChatCreate, current_user=Depends(get_current_user), db: Se
     db.add(db_chat)
     db.commit()
     db.refresh(db_chat)
-    return db_chat
+    return ChatOut.from_orm(db_chat)
 
 @router.post("/{id}/messages", response_model=MessageOut, summary="Sends a new message to a chat")
 def send_message(id: int, message: MessageCreate, current_user=Depends(get_current_user), db: Session = Depends(get_db)):
@@ -53,4 +53,4 @@ def send_message(id: int, message: MessageCreate, current_user=Depends(get_curre
     db.add(db_message)
     db.commit()
     db.refresh(db_message)
-    return db_message
+    return MessageOut.from_orm(db_message)
