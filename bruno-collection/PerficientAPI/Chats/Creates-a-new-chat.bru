@@ -16,6 +16,18 @@ body:json {
   }
 }
 
+script:post-response {
+  const jsonResponse = res.body;
+  
+  const chatId = jsonResponse.id;
+  
+  if (chatId) {
+    bru.setEnvVar("chat_id", chatId);
+  } else {
+    console.warn("No se encontró el campo id");
+  }
+}
+
 settings {
   encodeUrl: true
 }
