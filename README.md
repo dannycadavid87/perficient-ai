@@ -1,4 +1,5 @@
 # Chatbot 
+
 ## Backend
 This is a Python backend for a chatbot using FastAPI.
 
@@ -44,8 +45,20 @@ This chatbot UI is made by create-react-app
    npm install
 ```
 2. Start the server:
-   ```sh
+```sh
    npm start
-   ```
+```
 
 The frontend will be available at `http://localhost:3000`.
+
+## Using Docker/docker-compose
+
+One of the features this repo has addressed is the automatic deploy of the entire project using docker-compose. So, in order to build the entire project, you can run 
+
+```sh
+docker-compose up --build
+```
+
+Which is going to deploy a (1) postgres instance, (2) a redis instance; also, it is going to build the (3) chat-server app and create the corresponding image, and the same for (4) chat-ui.
+
+Finally, the app will be running at `http://localhost:3000`. For internal purposes, backend at `http://localhost:8000`
