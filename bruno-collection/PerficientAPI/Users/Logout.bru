@@ -1,0 +1,27 @@
+meta {
+  name: Logout
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/users/logout
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "id": 123,
+    "username": "testuser",
+    "email": "test@example.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from app.schemas.user import UserCreate, UserLogin, UserOut
-from app.services.user import create_user, get_user_by_username, verify_password
+from app.services.user import create_user, get_user_by_username, verify_password, get_user_info
 from app.db.session import SessionLocal
-from app.auth.jwt import create_access_token
+from app.auth.jwt_interpreter import create_access_token, oauth2_scheme
 from app.services.redis_session import get_redis
 from app.auth.dependencies import get_current_user
 from fastapi.security import OAuth2PasswordRequestForm
@@ -35,13 +35,13 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = 
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/logout", summary="Revoke the session of the authenticated User")
-async def logout(token: str = Depends(get_current_user), redis=Depends(get_redis)):
+async def logout(token: str = Depends(oauth2_scheme), redis=Depends(get_redis)):
     await redis.delete(token)
     return {"msg": "Logged out"}
 
 @router.get("/me", response_model=UserOut, summary="Get the information of the authenticated User")
 def me(current_user=Depends(get_current_user), db: Session = Depends(get_db)):
-    user = db.query(UserOut).filter(UserOut.id == int(current_user["sub"])).first()
+    user = get_user_info(db, int(current_user["sub"]))
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    return user
+    return UserOut(**user.__dict__)
