@@ -21,3 +21,6 @@ def create_user(db: Session, user: UserCreate):
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
+
+def get_user_info(db: Session, user_id: int):
+    return db.query(User).filter(User.id == user_id).first()
